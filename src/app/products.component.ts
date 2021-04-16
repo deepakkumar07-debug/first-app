@@ -22,6 +22,11 @@ import { Component } from "@angular/core";
     template: `<div>
                     <h1>{{"product " +productName}}</h1>
                     <p>{{getProduct()}}</p>
+                    <ul>
+                        <li *ngFor='let product of products'>
+                            {{product}}
+                        </li>
+                    </ul>
                 </div>`
     //displaying dynamically we use {{}} to render something dynamically evaluated at runtime 
     // value will be placed at runtime so the value of productName will placed in our dom
@@ -35,8 +40,10 @@ import { Component } from "@angular/core";
 })
 export class ProductsComponent {
     productName = 'Apple';
-    
+    products;
     getProduct() {
         return this.productName;
     }
+    // now here we dont have any logic for consuming http service
+    // now this allow us to unit test this class without dependency upon that http endpoint
 }

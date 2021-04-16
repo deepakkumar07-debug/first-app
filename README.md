@@ -380,8 +380,71 @@ export class ProductsComponent {
 ```
 
 ## directives
+    - another building block of angular
     directives to manipulate dom we can use this to add a dom element remove an existing dom element or change the class of dom element or its style...
 
 **example**
 use it like attribute in html we should prefix this attribute with asterisk
     <li *ngFor="">
+```js
+    import { Component } from "@angular/core";
+
+//to make this class as component we use componnet decorator for that import
+
+// this function taskes obj as argument so{}
+@Component({
+    // creating
+
+    // we use one or more properties to tell how angular works
+    
+    // like querySelector or $('') we can pass id,class,element name...
+
+    //we want< courses> component => selector :'courses' 
+
+    // class selector :'.courses' 
+
+    // selector :'#courses' 
+
+    // In real world application our template can be several lines of code in that case we put them in a separate file
+    
+    selector: 'products',
+    template: `<div>
+                    <h1>{{"product " +productName}}</h1>
+                    <p>{{getProduct()}}</p>
+                    <ul>
+                        <li *ngFor='let product of products'>
+                            {{product}}
+                        </li>
+                    </ul>
+                </div>`
+    //displaying dynamically we use {{}} to render something dynamically evaluated at runtime 
+    // value will be placed at runtime so the value of productName will placed in our dom
+    // if value of the productName changes at some point in the future angular will
+    // automatically updates the dom
+
+    // this concept is called data binding so we are binding our view to have filled in this
+    //component
+
+    // whenever the value of that field changes the view is automatically notified and updated
+})
+export class ProductsComponent {
+    productName = 'Apple';
+    products=['Apple','mango','grape'];
+    getProduct() {
+        return this.productName;
+    }
+}
+```
+
+## services
+component should not include any logic other tahn presentation logic
+- that is the logic behind this view what should happen when we click upon when we select an item from dropdown
+- details of how products should be retrieved should be in somewhere else in  our application
+
+in app folder create new folder
+
+nmaing convention should follows
+    
+    products.service.ts
+
+name of the file is products by convention we have the word in service in file name
