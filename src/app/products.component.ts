@@ -19,7 +19,10 @@ import { Component } from "@angular/core";
     // In real world application our template can be several lines of code in that case we put them in a separate file
     
     selector: 'products',
-    template: '<h1>{{productName}}</h1>'
+    template: `<div>
+                    <h1>{{"product " +productName}}</h1>
+                    <p>{{getProduct()}}</p>
+                </div>`
     //displaying dynamically we use {{}} to render something dynamically evaluated at runtime 
     // value will be placed at runtime so the value of productName will placed in our dom
     // if value of the productName changes at some point in the future angular will
@@ -31,5 +34,9 @@ import { Component } from "@angular/core";
     // whenever the value of that field changes the view is automatically notified and updated
 })
 export class ProductsComponent {
-    productName='Apple'
+    productName = 'Apple';
+    
+    getProduct() {
+        return this.productName;
+    }
 }

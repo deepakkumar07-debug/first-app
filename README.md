@@ -378,3 +378,10 @@ export class ProductsComponent {
     productName='Apple'
 }
 ```
+
+## directives
+    directives to manipulate dom we can use this to add a dom element remove an existing dom element or change the class of dom element or its style...
+
+**example**
+use it like attribute in html we should prefix this attribute with asterisk
+    <li *ngFor="">
