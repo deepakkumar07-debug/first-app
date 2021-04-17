@@ -448,3 +448,105 @@ nmaing convention should follows
     products.service.ts
 
 name of the file is products by convention we have the word in service in file name
+`products.service.ts`
+```js
+
+//when creating components we decorate ts class with component decorator
+
+// but in angular we dont have decorator for services
+
+// so services is essentially a plain js file
+
+export class ProductsService{
+
+    getProducts() {
+        return ['Apple','mango','grape'];//imagine here we have logic for consuming http service
+    }
+}
+// with this implementation we can reuse this logic in multiple places in our appplication
+
+// and also this separate or decouple our component from this logic 
+
+// now go to product component.ts
+
+```
+`products.component.ts`
+```js
+import { Component } from "@angular/core";
+import { ProductsService } from "./products.service";
+
+//to make this class as component we use componnet decorator for that import
+
+// this function taskes obj as argument so{}
+@Component({
+    // creating
+
+    // we use one or more properties to tell how angular works
+    
+    // lselector property is ike querySelector or $('') we can pass id,class,element name...
+
+    //we want< courses> component => selector :'courses' 
+
+    // class selector :'.courses' 
+
+    // selector :'#courses' 
+
+    // In real world application our template can be several lines of code in that case we put them in a separate file
+    
+    selector: 'products',
+    template: `<div>
+                    <h1>{{"product " +productName}}</h1>
+                    <p>{{getProductName()}}</p>
+                    <ul>
+                        <li *ngFor='let product of products'>
+                            {{product}}
+                        </li>
+                    </ul>
+                </div>`
+    //displaying dynamically we use {{}} to render something dynamically evaluated at runtime 
+    // value will be placed at runtime so the value of productName will placed in our dom
+    // if value of the productName changes at some point in the future angular will
+    // automatically updates the dom
+
+    // this concept is called data binding so we are binding our view to have filled in this
+    //component
+
+    // whenever the value of that field changes the view is automatically notified and updated
+})
+export class ProductsComponent {
+    //here we cant create variable using let const and var keywords but oustside we can
+    productName = 'Apple';
+    products;
+
+    constructor(){
+        let service= new ProductsService();
+        this.products = service.getProducts();
+    }
+    getProductName() {
+        return this.productName;
+    }
+    // now here we dont have any logic for consuming http service
+    // now this allow us to unit test this class without dependency upon that http endpoint
+}
+```
+
+**However we have tiny issue here**
+- by using new operator in above file we tightky coupled with courses component with courses service
+- let service= new ProductsService(); tightky coupled our classs with this implementation
+- what if we hve params in constructor in future we have to make changes on all occurences
+
+```js
+                //dependency of the component
+    constructor(service:ProductService) {//angular gonna create instance of a component
+    // first it creates instance of ProductService and then passes down
+    // with this implementation we dont have modify 100 places if we have params in that service consyructor
+    // now we decoupled our file productService
+        this.products=service.getProducts();
+    }
+```
+- instead of we creating instance of ProductService we can ask angular to do that for us.
+- now the final step is we need to instruct angular to create a instance for productService and pass it to a products component **this is called dependency injection**
+- we say angular to inject dependency  of the productService into its constructor
+
+**dependency injection means**
+injecting or providing dependecny of the class to its constructor

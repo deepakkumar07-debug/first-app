@@ -13,6 +13,6 @@ export class ProductsService{
 }
 // with this implementation we can reuse this logic in multiple places in our appplication
 
-// and also this separate or decouple our component from logic 
+// and also this separate or decouple our component from this logic 
 
-//
+// now go to product component.ts

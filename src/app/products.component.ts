@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ProductsService } from "./products.service";
 
 //to make this class as component we use componnet decorator for that import
 
@@ -8,7 +9,7 @@ import { Component } from "@angular/core";
 
     // we use one or more properties to tell how angular works
     
-    // like querySelector or $('') we can pass id,class,element name...
+    // lselector property is ike querySelector or $('') we can pass id,class,element name...
 
     //we want< courses> component => selector :'courses' 
 
@@ -21,7 +22,7 @@ import { Component } from "@angular/core";
     selector: 'products',
     template: `<div>
                     <h1>{{"product " +productName}}</h1>
-                    <p>{{getProduct()}}</p>
+                    <p>{{getProductName()}}</p>
                     <ul>
                         <li *ngFor='let product of products'>
                             {{product}}
@@ -39,9 +40,15 @@ import { Component } from "@angular/core";
     // whenever the value of that field changes the view is automatically notified and updated
 })
 export class ProductsComponent {
+    //here we cant create variable using let const and var keywords but oustside we can
     productName = 'Apple';
     products;
-    getProduct() {
+
+    constructor(){
+        let service= new ProductsService();
+        this.products = service.getProducts();
+    }
+    getProductName() {
         return this.productName;
     }
     // now here we dont have any logic for consuming http service
