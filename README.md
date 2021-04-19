@@ -549,4 +549,88 @@ export class ProductsComponent {
 - we say angular to inject dependency  of the productService into its constructor
 
 **dependency injection means**
-injecting or providing dependecny of the class to its constructor
+injecting or providing dependecny of the class into its constructor
+
+```js
+import { Component } from "@angular/core";
+import { ProductsService } from "./products.service";
+
+//to make this class as component we use componnet decorator for that import
+
+// this function taskes obj as argument so{}
+@Component({
+    
+    selector: 'products',
+    template: `<div>
+                    <h1>{{"product " +productName}}</h1>
+                    <p>{{getProductName()}}</p>
+                    <ul>
+                        <li *ngFor='let product of products'>
+                            {{product}}
+                        </li>
+                    </ul>
+                </div>`
+})
+export class ProductsComponent {
+    //here we cant create variable using let const and var keywords but oustside we can
+    productName = 'Apple';
+    products;
+
+    // injecting or providing dependecny of the class into its constructor
+    constructor(service:ProductsService){//dependency
+        //let service= new ProductsService();
+        this.products = service.getProducts();
+    }
+    getProductName() {
+        return this.productName;
+    }
+    //  A component should not include any logic other than presentation logic
+    // now here we dont have any logic for consuming http service
+    // now this allow us to unit test this class without dependency upon that http endpoint
+}
+```
+
+
+main thing done here on providers
+in this array we need to register all the dependecies that components in this module dependent upon
+
+
+```js
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { ProductsComponent } from './products.component';
+import { RatingComponent } from './rating/rating.component';
+import { ProductsService } from './products.service';
+
+// decorator @NgModule with this we convert our plain typescript class
+// to a module from angular point of view
+// to define a module we use ngModule
+@NgModule({
+  declarations: [//array of components our new component will be referenced here
+    //this is where we add all the components that are part of this module
+    AppComponent,//this default on only one compo
+    ProductsComponent, RatingComponent
+  ],
+  imports: [//array of modules
+    BrowserModule //here comes the modules which are not in angular code module we are dependent with
+  ],
+  providers: [
+    //in this array we need to register all the dependecies that components in this module dependent upon
+    ProductsService
+  ],
+  bootstrap: [AppComponent] // a technique of loading a program into a computer by means of a few 
+  //initial instructions which enable the introduction of the rest of the program 
+  //from given args
+})
+export class AppModule { }
+
+//the structure this default AppModule is exactly 
+//what we have created in ProductsComponent
+```
+
+## Generating Services Using Angular CLI
+
+        ng g s image or email
+        

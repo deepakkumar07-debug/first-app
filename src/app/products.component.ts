@@ -44,13 +44,15 @@ export class ProductsComponent {
     productName = 'Apple';
     products;
 
-    constructor(){
-        let service= new ProductsService();
+    // injecting or providing dependecny of the class into its constructor
+    constructor(service:ProductsService){//dependency
+        //let service= new ProductsService();
         this.products = service.getProducts();
     }
     getProductName() {
         return this.productName;
     }
+    //  A component should not include any logic other than presentation logic
     // now here we dont have any logic for consuming http service
     // now this allow us to unit test this class without dependency upon that http endpoint
 }
